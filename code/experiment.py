@@ -21,6 +21,7 @@ import torch
 import tqdm
 from sentence_transformers import SentenceTransformer, util
 
+import sklearn.linear_model as lm
 
 # TODO: merge similar labels; consider training model
 # i.e. focus on "top-level" categories
@@ -66,9 +67,7 @@ def main():
                 sentence_indices = [idx for idx, i in enumerate(outer_items["items"]) if i["cmp_code"] not in ["NA", "H"]]
                 labels.extend([code_to_top_level_code[i["cmp_code"]] for i in items])
 
-
                 emb_file = f"data/text_encodings/{key}.pth"
-
 
                 langs.extend([lang] * len(items))
 
@@ -82,7 +81,7 @@ def main():
                 cosine_scores = util.pytorch_cos_sim(label_title_encodings, texts_encodings[sentence_indices, :])
                 scores.append(cosine_scores)
 
-    all_scores = torch.hstack( scores).T
+    all_scores = torch.hstack(scores).T
     top_scores = all_scores.argmax(1)
     max_preds = [str(i) for i in top_scores.tolist()]
     labels_as_ints = list(map(int, labels))
@@ -115,7 +114,7 @@ def main():
     confusion_values = []
     for i, c1 in enumerate(seen_label_names):
         row = confusion_matrix[i]
-        row_norm = row/row.sum()
+        row_norm = row / row.sum()
         for j, c2 in enumerate(seen_label_names):
             if c1 == c2:
                 continue

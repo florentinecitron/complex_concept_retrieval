@@ -3,3 +3,6 @@ requests
 pandas
 scikit-learn
 more-itertools
+pytorch-metric-learning
+torch
+numpy

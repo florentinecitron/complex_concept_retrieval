@@ -1,0 +1,1 @@
+Requires faiss-gpu or faiss-cpu which should be installed via conda
