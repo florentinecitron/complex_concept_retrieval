@@ -5,4 +5,8 @@ scikit-learn
 more-itertools
 pytorch-metric-learning
 torch
-numpy
+faiss-cpu
+umap-learn
+numpy==1.20.3
+statsmodels
+tabulate
